@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheBookHive - A buzzing community for readers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>TheBookHive</h1>
+                <span class="tagline">A buzzing community for readers</span>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by title, author, or genre...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filters">
+                    <select id="genreFilter">
+                        <option value="">All Genres</option>
+                        {% for genre in genres %}
+                        <option value="{{ genre }}">{{ genre }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="year-filter">
+                        <input type="number" id="yearFrom" placeholder="Year from" min="1800" max="2025">
+                        <input type="number" id="yearTo" placeholder="Year to" min="1800" max="2025">
+                    </div>
+                    <div class="rating-filter">
+                        <select id="ratingFilter">
+                            <option value="">Any Rating</option>
+                            <option value="4.5">4.5+ ⭐</option>
+                            <option value="4.0">4.0+ ⭐</option>
+                            <option value="3.5">3.5+ ⭐</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="books-grid" id="booksGrid">
+            {% for book in books %}
+            <div class="book-card" data-title="{{ book.title }}">
+                <div class="book-cover">
+                    <img src="{{ book.image_url }}" alt="{{ book.title }} cover">
+                    <div class="book-rating">
+                        <span class="stars">★</span>
+                        {{ "%.1f"|format(book.rating) }}
+                    </div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">{{ book.title }}</h3>
+                    <p class="book-author">by {{ book.author }}</p>
+                    <p class="book-genre">{{ book.genre }}</p>
+                    <p class="book-year">{{ book.year }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="recommendations" id="recommendationsSection" style="display: none;">
+            <h2>Similar Books You Might Like</h2>
+            <div id="recommendationsList" class="recommendations-grid"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
